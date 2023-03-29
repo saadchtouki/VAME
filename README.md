@@ -1,4 +1,5 @@
-![VAME](https://github.com/saadchtouki/VAME_CS_RG/blob/ac839ce29445816eb4426a000752e894565afda1/Images/Banniere_readme.jpg)
+![VAME](https://github.com/saadchtouki/VAME_CS_RG/blob/d561e29677811b5d3571399d16373b426d9fe54a/Images/Banniere_readme.jpg)
+
 ![workflow](https://github.com/LINCellularNeuroscience/VAME/blob/master/Images/workflow.png)
 
 # VAME in a Nutshell
