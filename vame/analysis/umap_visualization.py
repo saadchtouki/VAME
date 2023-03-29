@@ -9,7 +9,6 @@ https://github.com/LINCellularNeuroscience/VAME
 Licensed under GNU General Public License v3.0
 """
 
-
 import os
 #import umap
 import umap.umap_ as umap
@@ -254,11 +253,6 @@ def visualization_for_silhouette(config, label, len_df, n_clusters, sample_silho
         if label == "community":
             community_label = np.load(os.path.join(path_to_file,"","community","","community_label_"+file+".npy"))
             umap_vis_comm(file, embed, community_label, num_points)
-
-
-
-
-
 
 
 

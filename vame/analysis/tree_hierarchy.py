@@ -250,8 +250,8 @@ def draw_tree(T):
     fig = plt.figure(2)
     nx.draw_networkx(T, pos)  
     figManager = plt.get_current_fig_manager()
-    figManager.window.showMaximized()
-    
+    #figManager.window.showMaximized()
+    #figManager.window.show()
 
 def traverse_tree(T, root_node=None):
     if root_node == None:

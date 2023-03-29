@@ -198,8 +198,8 @@ def pose_segmentation(config):
     model_name = cfg['model_name']
     n_cluster = cfg['n_cluster']
     fixed = cfg['egocentric_data']
-    parameterization = cfg['parameterization']
-    
+    #parameterization = cfg['parameterization']
+    parameterization="kmeans"
     print('Pose segmentation for VAME model: %s \n' %model_name)
     
     if legacy == True:

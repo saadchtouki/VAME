@@ -105,7 +105,7 @@ def traindata_aligned(cfg, files, testfraction, num_features, savgol_filter, che
     for file in files:
         print("z-scoring of file %s" %file)
         path_to_file = os.path.join(cfg['project_path'],"data", file, file+'-PE-seq.npy')
-        data = np.load(path_to_file)
+        data = np.load(path_to_file, allow_pickle=True) #Added : allow_pickle=True
         
         X_mean = np.mean(data,axis=None)
         X_std = np.std(data, axis=None)
@@ -209,7 +209,7 @@ def traindata_fixed(cfg, files, testfraction, num_features, savgol_filter, check
     for file in files:
         print("z-scoring of file %s" %file)
         path_to_file = os.path.join(cfg['project_path'],"data", file, file+'-PE-seq.npy')
-        data = np.load(path_to_file)
+        data = np.load(path_to_file, allow_pickle=True) #Added : allow_pickle=true
         X_mean = np.mean(data,axis=None)
         X_std = np.std(data, axis=None)
         X_z = (data.T - X_mean) / X_std
@@ -229,14 +229,14 @@ def traindata_fixed(cfg, files, testfraction, num_features, savgol_filter, check
                     elif X_z[i,marker] < -cfg['iqr_factor']*iqr_val:
                         X_z[i,marker] = np.nan       
 
-                X_z[i,:] = interpol(X_z[i,:])      
+                #X_z[i,:] = interpol(X_z[i,:])      
         
         X_len = len(data.T)
         pos_temp += X_len
         pos.append(pos_temp)
         X_train.append(X_z)
     
-    X = np.concatenate(X_train, axis=0).T
+    X = np.concatenate(X_train,axis=0).T
 
     if savgol_filter:
         X_med = scipy.signal.savgol_filter(X, cfg['savgol_length'], cfg['savgol_order'])   

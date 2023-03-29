@@ -17,6 +17,7 @@ import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
 
+
 from vame.util.auxiliary import read_config
 from vame.analysis.tree_hierarchy import graph_to_tree, draw_tree, traverse_tree_cutline
 
@@ -82,7 +83,7 @@ def create_community_bag(files, labels, transition_matrices, cut_tree, n_cluster
     trees = []
     communities_all = []
     for i, file in enumerate(files):
-        _, usage = np.unique(labels[i], return_counts=True)
+        _, usage = np.unique(labels[i], return_counts=True) #Liste des labels
         T = graph_to_tree(usage, transition_matrices[i], n_cluster, merge_sel=1) 
         trees.append(T)
         
@@ -203,7 +204,7 @@ def community(config, show_umap=False, cut_tree=None):
     
     labels = get_labels(cfg, files, model_name, n_cluster)
     transition_matrices = compute_transition_matrices(files, labels, n_cluster)
-    communities_all, trees = create_community_bag(files, labels, transition_matrices, cut_tree, n_cluster)
+    communities_all, trees = create_community_bag(files, labels, transition_matrices, cut_tree, n_cluster) #Dessin de l'arbre ici
     community_labels_all = get_community_labels(files, labels, communities_all)    
     
     for idx, file in enumerate(files):
