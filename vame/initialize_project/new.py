@@ -104,7 +104,7 @@ def init_new_project(project, videos, working_directory=None, videotype='.mp4'):
     cfg_file['Project']=str(project)
     cfg_file['project_path']=str(project_path)+'/'
     cfg_file['test_fraction']=0.1
-    cfg_file['video_sets']=video_names
+    cfg_file['video_sets']=[‘video-1’]
     cfg_file['all_data']='yes'
     cfg_file['load_data']='-PE-seq-clean'
     cfg_file['anneal_function']='linear'

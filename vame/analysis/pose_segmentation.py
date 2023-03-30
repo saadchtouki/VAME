@@ -208,7 +208,11 @@ def pose_segmentation(config):
         
     else:
         ind_param = cfg['individual_parameterization']
-        
+
+        for folders in cfg['video_sets']:
+            if not os.path.exists(os.path.join(cfg['project_path'],"results",folders,"")):
+                os.mkdir(os.path.join(cfg['project_path'],"results",folders,""))
+
         for folders in cfg['video_sets']:
             if not os.path.exists(os.path.join(cfg['project_path'],"results",folders,model_name,"")):
                 os.mkdir(os.path.join(cfg['project_path'],"results",folders,model_name,""))

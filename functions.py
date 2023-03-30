@@ -25,7 +25,7 @@ import matplotlib.cm as cm
 from sklearn.metrics import silhouette_samples, silhouette_score
 
 
-path_parquet=os.path.join("..","..","..","Dataset_1")
+path_parquet=#Enter the path to the parquet file here
 
 def scale(data, standard=['Distance_to_CIPV','LongitudinalAccelCorrected','TransversalAccelCorrected','YawRateCorrected'], minmax=['VehicleSpeed']):
     df=data.copy()
@@ -65,7 +65,7 @@ def compute_deviation_score_speed_deviation_and_length(data,trip): #Return (devi
     return (deviation_score, speed_deviation, length)
 
 def show_parquet_stats(num_parquet,columns): #Columns must include 'trip'  #Helps to pick relevant trips
-    path=os.path.join("..","..","..","Dataset_1","input_full_hdd_"+num_parquet+".parquet")
+    path=os.path.join(path_parquet,"input_full_hdd_"+num_parquet+".parquet")
     a=pd.read_parquet(path)
     data=a[columns]
     data.replace("",np.nan,inplace=True)
@@ -157,7 +157,7 @@ def Create_Trainset_modified(config):
     if check_parameter == True:
         plot_check_parameter(cfg, iqr_val, num_frames, X_true, X_med)
 
-
+    
     #save numpy arrays the the test/train info:
     np.save(os.path.join(cfg['project_path'],"data", "train",'train_seq.npy'), z_train)
     np.save(os.path.join(cfg['project_path'],"data", "train", 'test_seq.npy'), z_test)
@@ -195,6 +195,8 @@ def Vame_parquet(num_parquet, columns, trips, name=""):
         print("")
         print("You can't create two projects with the same name during the same day !")
         return
+    config_file = Path(config).resolve()
+    cfg = read_config(config_file)
     
     dataOnlyMinMax = open_scale_clean_parquet(num_parquet,columns)
     data1=dataOnlyMinMax[dataOnlyMinMax['trip'].isin(trips)]
@@ -207,7 +209,11 @@ def Vame_parquet(num_parquet, columns, trips, name=""):
     d = str(month[0:3]+str(day))
     date = dt.today().strftime('%Y-%m-%d')
     project_name = '{pn}-{date}'.format(pn=project, date=d+'-'+str(year))
+    
+    if not os.path.exists(os.path.join(cfg['project_path'],'data','video-1',"")):
+        os.mkdir(os.path.join(cfg['project_path'],'data','video-1',""))
     np.save(os.path.join('VAME', 'VAME', project_name,'data', 'video-1','video-1-PE-seq.npy'),data1)
+    
     
     #Trainset creation
     Create_Trainset_modified(config)
