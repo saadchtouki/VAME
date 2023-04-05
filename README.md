@@ -1,11 +1,12 @@
-![VAME](https://github.com/saadchtouki/VAME_CS_RG/blob/d561e29677811b5d3571399d16373b426d9fe54a/Images/Banniere_readme.jpg)
+![VAME](https://github.com/saadchtouki/VAME_CS_RG/blob/6630b427b0575dad2d03394b3f423e38ebc596b4/Images/Banniere_readme.jpg)
 
-![workflow](https://github.com/LINCellularNeuroscience/VAME/blob/master/Images/workflow.png)
+![workflow](https://github.com/saadchtouki/VAME_CS_RG/blob/6630b427b0575dad2d03394b3f423e38ebc596b4/Images/Banniere_readme2.jpg)
 
 # The project in a Nutshell
 The project consists of segmenting car journeys, traced with the help of sensors, into hierarchical driving situations. We are basing this on the work done on VAME (Variational animal motion embedding). [VAME](https://github.com/LINCellularNeuroscience/VAME.git) is a framework to cluster animal behavioral signals obtained from pose-estimation tools. It is a [PyTorch](https://pytorch.org/) based deep learning framework which leverages the power of recurrent neural networks (RNN) to model sequential data. In order to learn the underlying complex data distribution, an RNN is used in a variational autoencoder setting to extract the latent state of the animal (in our case the latent state of the car) in every step of the input time series.
 
 ![behavior](https://github.com/LINCellularNeuroscience/VAME/blob/master/Images/behavior_structure_crop.gif)
+![example](https://github.com/saadchtouki/VAME_CS_RG/blob/6630b427b0575dad2d03394b3f423e38ebc596b4/Images/Exemple_visu_dyna.jpg)
 
 The workflow of VAME consists of 5 steps and we explain them in detail [here](https://github.com/LINCellularNeuroscience/VAME/wiki/1.-VAME-Workflow).
 
