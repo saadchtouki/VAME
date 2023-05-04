@@ -18,6 +18,50 @@ import tqdm
 from vame.util.auxiliary import read_config
 
 
+# def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
+#     if flag == "motif":
+#         print("Motif videos getting created for "+file+" ...")
+#         labels = np.load(os.path.join(path_to_file,str(n_cluster)+'_km_label_'+file+'.npy'))
+#     if flag == "community":
+#         print("Community videos getting created for "+file+" ...")
+#         labels = np.load(os.path.join(path_to_file,"community",'community_label_'+file+'.npy'))
+#     capture = cv.VideoCapture(os.path.join(cfg['project_path'],"videos",file+videoType))
+
+#     if capture.isOpened():
+#         width  = capture.get(cv.CAP_PROP_FRAME_WIDTH)
+#         height = capture.get(cv.CAP_PROP_FRAME_HEIGHT)
+# #        print('width, height:', width, height)
+
+#     fps = 25#capture.get(cv.CAP_PROP_FPS)
+# #        print('fps:', fps)
+
+#     cluster_start = cfg['time_window'] / 2
+#     for cluster in range(n_cluster):
+#         print('Cluster: %d' %(cluster))
+#         cluster_lbl = np.where(labels == cluster)
+#         cluster_lbl = cluster_lbl[0]
+        
+#         if flag == "motif":
+#             output = os.path.join(path_to_file,"cluster_videos",file+'-motif_%d.avi' %cluster)
+#         if flag == "community":
+#             output = os.path.join(path_to_file,"community_videos",file+'-community_%d.avi' %cluster)
+            
+#         video = cv.VideoWriter(output, cv.VideoWriter_fourcc('M','J','P','G'), fps, (int(width), int(height)))
+
+#         if len(cluster_lbl) < cfg['length_of_motif_video']:
+#             vid_length = len(cluster_lbl)
+#         else:
+#             vid_length = cfg['length_of_motif_video']
+
+#         for num in tqdm.tqdm(range(vid_length)):
+#             idx = cluster_lbl[num]
+#             capture.set(1,idx+cluster_start)
+#             ret, frame = capture.read()
+#             video.write(frame)
+
+#         video.release()
+#     capture.release()
+
 def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
     if flag == "motif":
         print("Motif videos getting created for "+file+" ...")
@@ -27,9 +71,8 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
         labels = np.load(os.path.join(path_to_file,"community",'community_label_'+file+'.npy'))
     capture = cv.VideoCapture(os.path.join(cfg['project_path'],"videos",file+videoType))
 
-    if capture.isOpened():
-        width  = capture.get(cv.CAP_PROP_FRAME_WIDTH)
-        height = capture.get(cv.CAP_PROP_FRAME_HEIGHT)
+    frame_size = (1200, 800)
+
 #        print('width, height:', width, height)
 
     fps = 25#capture.get(cv.CAP_PROP_FPS)
@@ -46,7 +89,7 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
         if flag == "community":
             output = os.path.join(path_to_file,"community_videos",file+'-community_%d.avi' %cluster)
             
-        video = cv.VideoWriter(output, cv.VideoWriter_fourcc('M','J','P','G'), fps, (int(width), int(height)))
+        video = cv.VideoWriter(output, cv.VideoWriter_fourcc('M','J','P','G'), fps, frame_size)
 
         if len(cluster_lbl) < cfg['length_of_motif_video']:
             vid_length = len(cluster_lbl)
@@ -62,7 +105,29 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
         video.release()
     capture.release()
 
+def generate_video_from_images(cfg, path_to_file, file, n_cluster, videoType, flag):
+    fps = 10
+    frame_size = (1200, 800)
+    image_files = os.listdir(os.path.join(path_to_file, "gif_frames"))
+    step = 0
+    if flag == "motif":
+        output_file = os.path.join(path_to_file,"cluster_videos",file+'-motif_%d.avi' %n_cluster)
+    if flag == "community":
+        output_file = os.path.join(path_to_file,"community_videos",file+'-community_%d.avi' %n_cluster)
+    
+    image_files = sorted(image_files, key=lambda x: int(x.split("_")[1].split(".")[0]))
+    print(image_files)
+    video = cv.VideoWriter(output_file, cv.VideoWriter_fourcc('M','J','P','G'), fps, frame_size)
+    for num in tqdm.tqdm(range(len(image_files))):
+        filename = os.path.join(path_to_file, "gif_frames", image_files[num])
+        img = cv.imread(filename)
+        img = cv.resize(img, frame_size)
+        # Write the current image to the video
+        video.write(img)
 
+
+    video.release()
+    
 def motif_videos(config, videoType='.mp4'):
     config_file = Path(config).resolve()
     cfg = read_config(config_file)
@@ -104,7 +169,9 @@ def motif_videos(config, videoType='.mp4'):
     
     print("All videos have been created!")
     
-    
+def sort_key(filename):
+    return int(filename[len(filename)-5:len(filename)-4])
+   
 def community_videos(config, videoType='.mp4'):
     config_file = Path(config).resolve()
     cfg = read_config(config_file)
